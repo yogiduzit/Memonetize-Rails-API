@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_002029) do
+ActiveRecord::Schema.define(version: 2019_07_18_013427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "memes", force: :cascade do |t|
+    t.text "img_url"
+    t.text "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "residents", force: :cascade do |t|
     t.datetime "created_at", null: false

@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   get '/', {to: 'welcome#index', as: "welcome"}
 
   resources :users, only: [:new, :create, :destroy]
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :memes
 end
