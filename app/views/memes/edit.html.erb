@@ -1,0 +1,29 @@
+<h1>New Meme</h1>
+
+
+<div class="form-container">
+  <div class="errors-container">
+    <% if @meme.errors.messages.any? %>
+      <ul class="errors-list">
+        <% @meme.errors.full_messages.each do |err| %>
+          <li><% error %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  <%= form_with model: @meme, local: true do |f|%>
+    <div class="form-group">
+      <%= f.label :img_url%>
+      <%= f.text_field :img_url %>
+    </div>
+    <div class="form-group">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="form-group">
+      <%= f.label :body %>
+      <%= f.text_field :body %>
+    </div>
+    <%= f.submit %>
+  <% end %>
+</div>
