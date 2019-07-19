@@ -1,0 +1,10 @@
+<div class="memes-container"> 
+  <h1 class="All memes">
+    <% @memes.each do |meme| %>
+      <div class="meme">
+        <%# <img src="<%= meme.img_url\%\>"> %>
+        <h3><%= link_to meme.title, meme_path(meme) %></h3>
+        <p><%= meme.body %></p>
+      </div>
+    <% end %>
+</div>
