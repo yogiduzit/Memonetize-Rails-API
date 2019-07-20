@@ -1,5 +1,8 @@
 class MemesController < ApplicationController
 
+  before_action :authenticate_user!
+  before_action :authorize!, only: [:update, :destroy]
+
   def new
     @meme = Meme.new
   end
@@ -45,5 +48,9 @@ class MemesController < ApplicationController
   private
   def meme_params
     params.require(:meme).permit(:img_url, :title, :body)
+  end
+
+  def authorize!
+    redirect_to new_sessions_path unless can?(:crud, Meme)
   end
 end
