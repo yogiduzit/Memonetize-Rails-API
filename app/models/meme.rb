@@ -17,6 +17,7 @@ class Meme < ApplicationRecord
       url: url,
       classifier_ids: [:explicit]
     )
+    p classes.result
     return classes.result
   end
 
