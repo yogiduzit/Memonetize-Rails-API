@@ -1,7 +1,7 @@
 class MemesController < ApplicationController
 
-  before_action :authenticate_user!
-  before_action :authorize!, only: [:update, :destroy]
+  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authorize!, only: [:update, :destroy, :edit]
 
   def new
     @meme = Meme.new
@@ -9,6 +9,7 @@ class MemesController < ApplicationController
 
   def create
     @meme = Meme.new meme_params
+    @meme.user = current_user
 
     if @meme.valid?
       @meme.save
@@ -23,7 +24,8 @@ class MemesController < ApplicationController
   end
 
   def index
-    @memes = Meme.all
+
+      @memes = Meme.limit(20)
   end
 
   def destroy
@@ -51,6 +53,7 @@ class MemesController < ApplicationController
   end
 
   def authorize!
-    redirect_to new_sessions_path unless can?(:crud, Meme)
+    @meme = Meme.find(params[:id])
+    redirect_to new_sessions_path unless can?(:crud, @meme)
   end
 end
