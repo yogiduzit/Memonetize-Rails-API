@@ -30,7 +30,7 @@
           </li>
         </ul>
         <ul class="navbar-nav">
-          <% if session[:user_id].nil? %>
+          <% if !current_user.present? %>
             <li class="nav-item">
               <%= link_to "Sign In", new_sessions_path, class: "nav-link" %>
             </li>

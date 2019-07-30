@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :destroy]
   resource :sessions, only: [:new, :create, :destroy]
   resources :memes
+
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :memes
+    end
+  end
 end

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   private
   def current_user
-    @current_user ||= User.find_by_id session[:user_id]
+    current_user ||= User.find_by_id session[:user_id]
   end
 
   def user_signed_in?
@@ -14,4 +14,7 @@ class ApplicationController < ActionController::Base
       redirect_to new_sessions_path
     end
   end
+
+  helper_method :current_user
+  helper_method :authenticate_user!
 end

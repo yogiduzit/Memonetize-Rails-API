@@ -6,7 +6,7 @@
     <% if @meme.errors.messages.any? %>
       <ul class="errors-list">
         <% @meme.errors.full_messages.each do |err| %>
-          <li><% error %></li>
+          <li><%= err %></li>
         <% end %>
       </ul>
     <% end %>
