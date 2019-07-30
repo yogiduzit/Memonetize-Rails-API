@@ -3,6 +3,8 @@
   <img src="<%= @meme.img_url %>">
   <h3><%= @meme.title %></h3>
   <p><%= @meme.body %></p>
-  <%= link_to "Delete", meme_path(@meme.id), method: "Delete" %>
-  <%= link_to "Edit", edit_meme_path(@meme.id) %>
+  <% if can?(:crud, @meme)%>
+    <%= link_to "Delete", meme_path(@meme.id), method: "Delete" %>
+    <%= link_to "Edit", edit_meme_path(@meme.id) %>
+  <% end %>
 </div>
