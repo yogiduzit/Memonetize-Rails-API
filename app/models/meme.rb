@@ -1,5 +1,8 @@
 class Meme < ApplicationRecord
-  validates :img_url, presence: true, uniqueness: true
-  validates :title, presence: true, uniqueness: true
+
+  belongs_to :user
+  
+  validates :img_url, presence: true
+  validates :title, presence: true
   validates :body, presence: true
 end
