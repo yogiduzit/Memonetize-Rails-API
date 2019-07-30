@@ -1,32 +1,36 @@
 class Api::V1::MemesController < Api::ApplicationController
 
-  require "json"
-  require "ibm_watson/visual_recognition_v3"
-  include IBMWatson
+  before_action :authenticate_user!, except: [:index, :show]
 
-  def index
-    visual_recognition = VisualRecognitionV3.new(
-      version: "2019-06-27",
-      iam_apikey: "aziME45A7BN4w3lJ55C2NAOPApupuwr5-gFdxlKL5eM3"
-    )
-    
-    File.open("app/assets/images/porn.jpeg") do |image_file|
-      classes = visual_recognition.classify(
-        images_file: image_file,
-        threshold: "0.4",
-        classifier_ids: ["explicit"]
-      )
-      puts JSON.pretty_generate(classes.result)
-    end
-    
+  def index    
     memes = Meme.all
-
     render(json: memes)
   end
-  private
 
-  visual_recognition = VisualRecognitionV3.new(
-    version: "2019-06-27",
-    iam_apikey: "aziME45A7BN4w3lJ55C2NAOPApupuwr5-gFdxlKL5eM3"
-  )
+  def show
+    meme = Meme.find(params[:id])
+    render(json: meme)
+  end
+
+  def create
+    meme = Meme.new meme_params
+    meme.user = current_user
+    p "Yogi"
+
+    if meme.save
+      render(json: { id: meme.id })
+    else
+      render(
+        json: {errors: meme.errors },
+        status: 422
+      )
+    end
+  end
+
+
+
+  private
+  def meme_params
+    params.require(:meme).permit(:img_url, :title, :body, :created_at)
+  end
 end
