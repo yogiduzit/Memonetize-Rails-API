@@ -1,6 +1,6 @@
 <h1>Meme Show</h1>
 <div class="meme-container">
-  <img src="<%= @meme.img_url %>">
+  <%= image_tag(url_for(@meme_img)) if @meme.meme_img.attached? %>
   <h3><%= @meme.title %></h3>
   <p><%= @meme.body %></p>
   <% if can?(:crud, @meme)%>

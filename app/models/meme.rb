@@ -5,26 +5,30 @@ class Meme < ApplicationRecord
   include IBMWatson
 
   belongs_to :user
+  has_one_attached :meme_img
 
-  before_create :get_explicit_score
   
-  validates :img_url, presence: true
   validates :title, presence: true
   validates :body, presence: true
+  validate :get_explicit_score
 
-  def classify_meme(url)
-    classes = visual_recognition.classify(
-      url: url,
-      classifier_ids: [:explicit]
-    )
-    p classes.result
-    return classes.result
+  def classify_meme()
+    path = ActiveStorage::Blob.service.send(:path_for, self.meme_img.key)
+    File.open(path) do |images_file|
+      classes = visual_recognition.classify(
+        images_file: images_file,
+        classifier_ids: [:explicit]
+      )
+      return classes.result
+    end
+    
   end
 
   def get_explicit_score
-    result = classify_meme(self.img_url)["images"][0]["classifiers"][0]["classes"]
+    result = classify_meme()["images"][0]["classifiers"][0]["classes"][0]
 
-    if result["class"] == "explicit"
+
+    if result["class"] === "explicit"
       errors.add(:img_url, "explicit image")
     end
 

@@ -10,6 +10,7 @@ class MemesController < ApplicationController
   def create
     @meme = Meme.new meme_params
     @meme.user = current_user
+    @meme.meme_img.attach(params["meme"]["meme_img"])
 
     if @meme.valid?
       @meme.save
@@ -21,6 +22,7 @@ class MemesController < ApplicationController
 
   def show
     @meme = Meme.find(params[:id])
+    @meme_img = @meme.meme_img
   end
 
   def index
@@ -49,7 +51,7 @@ class MemesController < ApplicationController
 
   private
   def meme_params
-    params.require(:meme).permit(:img_url, :title, :body)
+    params.require(:meme).permit(:meme_img, :title, :body)
   end
 
   def authorize!
