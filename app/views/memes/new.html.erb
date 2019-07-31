@@ -13,8 +13,8 @@
   </div>
   <%= form_with model: @meme, local: true do |f|%>
     <div class="form-group">
-      <%= f.label :img_url%>
-      <%= f.text_field :img_url %>
+      <%= f.label :meme_img %>
+      <%= f.file_field :meme_img %>
     </div>
     <div class="form-group">
       <%= f.label :title %>
