@@ -45,12 +45,17 @@ end
 users = User.all
 
 NUM_MEMES.times do 
-  Meme.create(
+  meme_img = File.open(File.join(Rails.root, "app/assets/images/u-mad-logo.jpg"))
+  meme = Meme.new(
     title: "Hahaha",
     body: Faker::ChuckNorris.fact,
-    img_url: MEMES[rand(MEMES.length - 1)],
     user: users.sample
   )
+  meme.meme_img.attach(
+    io: meme_img,
+    filename: 'u-mad-logo.jpg'
+  )
+  meme.save
 end
 
 
