@@ -12,8 +12,8 @@ class Meme < ApplicationRecord
   validates :body, presence: true
   validate :get_explicit_score
 
-  def classify_meme()
-    path = ActiveStorage::Blob.service.send(:path_for, self.meme_img.key)
+  def classify_meme
+    path = ActiveStorage::Blob.service_url
     File.open(path) do |images_file|
       classes = visual_recognition.classify(
         images_file: images_file,
@@ -25,7 +25,7 @@ class Meme < ApplicationRecord
   end
 
   def get_explicit_score
-    result = classify_meme()["images"][0]["classifiers"][0]["classes"][0]
+    result = classify_meme["images"][0]["classifiers"][0]["classes"][0]
 
 
     if result["class"] === "explicit"
