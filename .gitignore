@@ -59,5 +59,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 app/assets/images/*
+/.env
 
 # End of https://www.gitignore.io/api/macos
+
+# Ignore application configuration
+/config/application.yml
