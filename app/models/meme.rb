@@ -10,17 +10,17 @@ class Meme < ApplicationRecord
   
   validates :title, presence: true
   validates :body, presence: true
-  validate :get_explicit_score
+  # validate :get_explicit_score
 
   def classify_meme
-    path = ActiveStorage::Blob.service_url
-    File.open(path) do |images_file|
-      classes = visual_recognition.classify(
-        images_file: images_file,
-        classifier_ids: [:explicit]
-      )
-      return classes.result
-    end
+    
+    path = S3_BUCKET.object(self.meme_img.key).url
+    classes = visual_recognition.classify(
+      url: path,
+      classifier_ids: [:explicit]
+    )
+    return classes.result
+
     
   end
 
