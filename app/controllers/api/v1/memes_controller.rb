@@ -2,9 +2,9 @@ class Api::V1::MemesController < Api::ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
 
-  def index    
-    memes = Meme.all
-    render(json: memes)
+  def index               
+    memes = Meme.order(created_at: :desc)
+    render(json: memes, each_serializer: MemeSerializer)
   end
 
   def show
@@ -15,7 +15,6 @@ class Api::V1::MemesController < Api::ApplicationController
   def create
     meme = Meme.new meme_params
     meme.user = current_user
-    p "Yogi"
 
     if meme.save
       render(json: { id: meme.id })
@@ -27,10 +26,9 @@ class Api::V1::MemesController < Api::ApplicationController
     end
   end
 
-
-
   private
   def meme_params
-    params.require(:meme).permit(:img_url, :title, :body, :created_at)
+    params.require(:meme).permit(:meme_img, :title, :body, :created_at)
   end
+
 end
