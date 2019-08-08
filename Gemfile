@@ -42,6 +42,7 @@ gem 'ibm_watson'
 gem 'json'
 gem 'aws-sdk-s3'
 gem 'figaro'
+gem 'active_model_serializers', require: true
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
