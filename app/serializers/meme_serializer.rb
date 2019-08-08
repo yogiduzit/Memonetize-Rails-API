@@ -9,6 +9,6 @@ class MemeSerializer < ActiveModel::Serializer
   belongs_to(:user, key: :author)
 
   def meme_img
-    S3_BUCKET.object(object.meme_img.key).url
+    S3_BUCKET.object(object.meme_img.key).public_url
   end
 end
