@@ -7,17 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-MEMES = [
-        "https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "https://images.unsplash.com/photo-1485550409059-9afb054cada4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60", 
-        "https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-      ]
-
-NUM_USERS = 10
-NUM_PRO_USERS = 10
-NUM_MODS = 5
+NUM_USERS = 2
+NUM_PRO_USERS = 1
+NUM_MODS = 1
 i = 0
-NUM_MEMES = 200
+NUM_MEMES = 5
 
 User.destroy_all
 
@@ -53,7 +47,8 @@ NUM_MEMES.times do
   )
   meme.meme_img.attach(
     io: meme_img,
-    filename: 'u-mad-logo.jpg'
+    filename: 'u-mad-logo.jpg',
+    content_type: 'application/jpg',
   )
   meme.save
 end
