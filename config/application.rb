@@ -40,7 +40,7 @@ module Sell_Yo_Meme
 
          resource(
           # allow access to only paths that begin with /api/
-          "/api/*",
+          "*",
           # this allows all HTTP headers to be sent
           headers: :any,
           # Allows sharing of cookies for CORS requests made to this resource
