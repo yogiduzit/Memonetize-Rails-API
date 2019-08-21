@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get '/', {to: 'welcome#index', as: "welcome"}
+  post '/rails/active_storage/direct_uploads' => 'direct_uploads#create'
 
   resources :users, only: [:new, :create, :destroy]
   resource :sessions, only: [:new, :create, :destroy]
