@@ -6,7 +6,7 @@ class Api::V1::SessionsController < Api::ApplicationController
 
       session[:user_id] = user.id
 
-      render(json: {id: user.id}, status: 200)
+      render(json: {id: session[:user_id]}, status: 200)
     else
       render(json: {error: "Either the username or password are incorrect", status: 422}, status: 422)
     end

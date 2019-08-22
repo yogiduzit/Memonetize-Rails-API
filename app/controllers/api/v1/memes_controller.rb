@@ -15,6 +15,7 @@ class Api::V1::MemesController < Api::ApplicationController
   def create
     meme = Meme.new meme_params
     meme.user = current_user
+    meme.meme_img.attach(params[:meme_img])
 
     if meme.save
       render(json: { id: meme.id })
@@ -28,7 +29,7 @@ class Api::V1::MemesController < Api::ApplicationController
 
   private
   def meme_params
-    params.require(:meme).permit(:meme_img, :title, :body, :created_at)
+    params.permit(:title, :body, :meme_img)
   end
 
 end
