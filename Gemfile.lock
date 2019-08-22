@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/eric-norcross/puma.git
+  revision: fc97fdaab2290f93e348a23b5bec9b01e1f195bc
+  branch: chrome_70_ssl_curve_compatiblity
+  specs:
+    puma (3.12.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -173,7 +180,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.1.1)
-    puma (3.12.1)
     rack (2.0.7)
     rack-cors (1.0.3)
     rack-test (1.1.0)
@@ -302,7 +308,7 @@ DEPENDENCIES
   ngrok-tunnel
   pg (>= 0.18, < 2.0)
   pry (~> 0.12.2)
-  puma (~> 3.11)
+  puma!
   rack-cors
   rails (~> 5.2.3)
   rails-controller-testing
