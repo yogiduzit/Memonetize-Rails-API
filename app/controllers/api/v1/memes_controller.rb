@@ -9,7 +9,7 @@ class Api::V1::MemesController < Api::ApplicationController
 
   def show
     meme = Meme.find(params[:id])
-    render(json: meme)
+    render(json: meme, each_serializer: MemeSerializer)
   end
 
   def create
@@ -24,6 +24,22 @@ class Api::V1::MemesController < Api::ApplicationController
         json: {errors: meme.errors },
         status: 422
       )
+    end
+  end
+
+  def destroy
+    meme = Meme.find(params[:id])
+    meme.destroy
+
+    render(json: {success: "Meme successfully deleted"})
+  end
+
+  def update
+    meme = Meme.find(params[:id])
+    if meme.update(meme_params)
+      render(json: {id: meme.id, success: "Meme successfully updated"})
+    else
+      render(json: {errors: meme.errors.full_messages})
     end
   end
 
