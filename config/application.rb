@@ -36,11 +36,11 @@ module Sell_Yo_Meme
       allow do
         # origins specifies which domains are allowed to make AJAX requests
         # to this server
-        origins("localhost:8080", "127.0.0.1:8080", "127.0.0.1:5500")
+        origins("localhost:8080", "127.0.0.1:8080", "127.0.0.1:5500", "https://memonetize.herokuapp.com/")
 
          resource(
           # allow access to only paths that begin with /api/
-          "/api/*",
+          "*",
           # this allows all HTTP headers to be sent
           headers: :any,
           # Allows sharing of cookies for CORS requests made to this resource
