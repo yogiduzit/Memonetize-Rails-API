@@ -34,6 +34,15 @@ class Api::V1::MemesController < Api::ApplicationController
     render(json: {success: "Meme successfully deleted"})
   end
 
+  def update
+    meme = Meme.find(params[:id])
+    if meme.update(meme_params)
+      render(json: {id: meme.id, success: "Meme successfully updated"})
+    else
+      render(json: {errors: meme.errors.full_messages})
+    end
+  end
+
   private
   def meme_params
     params.permit(:title, :body, :meme_img)
