@@ -17,5 +17,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  helper_method :user_signed_in?
   helper_method :current_user
 end
