@@ -5,35 +5,43 @@ class Meme < ApplicationRecord
   include IBMWatson
 
   belongs_to :user
+
   has_one_attached :meme_img
 
-  
+  has_many :meme_taggings, dependent: :destroy
+  has_many :tags, through: :meme_taggings
+
   validates :title, presence: true
   validates :body, presence: true
   # validate :get_explicit_score
 
   def classify_meme
-    
     path = S3_BUCKET.object(self.meme_img.key).url
     classes = visual_recognition.classify(
       url: path,
       classifier_ids: [:explicit]
     )
     return classes.result
-
-    
   end
 
   def get_explicit_score
     result = classify_meme["images"][0]["classifiers"][0]["classes"][0]
-
-
     if result["class"] === "explicit"
       errors.add(:img_url, "explicit image")
     end
-
   end
 
+  def tag_names
+    self.tags.map{|tag|
+      tag.name
+    }.join(', ')
+  end
+
+  def tag_names=(rhs)
+    self.tags = rhs.strip.split(/\s*,\s*/).map do |tag_name|
+      Tag.find_or_initialize_by(name: tag_name)
+    end
+  end
 
   private
   def visual_recognition

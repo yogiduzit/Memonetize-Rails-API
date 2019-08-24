@@ -5,7 +5,8 @@ class MemeSerializer < ActiveModel::Serializer
     :body,
     :created_at,
     :meme_img,
-    :authorized
+    :authorized,
+    :tag_names
   )
   belongs_to(:user, key: :author)
 

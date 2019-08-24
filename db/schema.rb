@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_30_024130) do
+ActiveRecord::Schema.define(version: 2019_08_24_004224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2019_07_30_024130) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "meme_taggings", force: :cascade do |t|
+    t.bigint "meme_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meme_id"], name: "index_meme_taggings_on_meme_id"
+    t.index ["tag_id"], name: "index_meme_taggings_on_tag_id"
+  end
+
   create_table "memes", force: :cascade do |t|
     t.text "title"
     t.text "body"
@@ -45,9 +54,19 @@ ActiveRecord::Schema.define(version: 2019_07_30_024130) do
     t.index ["user_id"], name: "index_memes_on_user_id"
   end
 
-  create_table "residents", force: :cascade do |t|
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_taggings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_user_taggings_on_tag_id"
+    t.index ["user_id"], name: "index_user_taggings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,5 +82,9 @@ ActiveRecord::Schema.define(version: 2019_07_30_024130) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "meme_taggings", "memes"
+  add_foreign_key "meme_taggings", "tags"
   add_foreign_key "memes", "users"
+  add_foreign_key "user_taggings", "tags"
+  add_foreign_key "user_taggings", "users"
 end

@@ -45,7 +45,7 @@ class Api::V1::MemesController < Api::ApplicationController
 
   private
   def meme_params
-    params.permit(:title, :body, :meme_img)
+    params.permit(:title, :body, :meme_img, :tag_names)
   end
 
 end
