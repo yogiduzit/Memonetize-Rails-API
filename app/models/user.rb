@@ -2,7 +2,9 @@ class User < ApplicationRecord
 
   has_many :memes, dependent: :destroy
   has_many :user_taggings, dependent: :destroy
+  has_many :votes, dependent: :destroy
   has_many :tags, through: :user_taggings
+  has_many :voted_memes, through: :votes, source: :meme
 
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 

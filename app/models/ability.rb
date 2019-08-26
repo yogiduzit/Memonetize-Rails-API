@@ -45,5 +45,9 @@ class Ability
     can(:crud, Meme) do |meme|
       meme.user == user
     end
+
+    can(:vote, Meme) do |meme|
+      meme.user != user
+    end
   end
 end

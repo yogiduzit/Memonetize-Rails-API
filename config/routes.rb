@@ -8,10 +8,14 @@ Rails.application.routes.draw do
   resource :sessions, only: [:new, :create, :destroy]
   resources :memes
 
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :memes
+      resources :memes do 
+        resources :votes, only: [:create, :update]
+      end
       resources :users
+      resources :charges, only: [:create]
       resource :sessions, only: [:create, :destroy]
       get '/current_user', {to: 'users#current'}
     end

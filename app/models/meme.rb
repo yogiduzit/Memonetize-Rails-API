@@ -8,12 +8,14 @@ class Meme < ApplicationRecord
 
   has_one_attached :meme_img
 
+  has_many :votes, dependent: :destroy
   has_many :meme_taggings, dependent: :destroy
   has_many :tags, through: :meme_taggings
+  has_many :voters, through: :votes, source: :user
 
   validates :title, presence: true
   validates :body, presence: true
-  # validate :get_explicit_score
+  validate :get_explicit_score
 
   def classify_meme
     path = S3_BUCKET.object(self.meme_img.key).url
