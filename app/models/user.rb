@@ -11,6 +11,10 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :password, presence: true
 
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
   def tag_names
     self.tags.map{|tag|
       tag.name
