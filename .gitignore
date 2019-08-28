@@ -60,6 +60,10 @@ Temporary Items
 .apdisk
 app/assets/images/*
 /.env
+app/views
+app/assets
+app/helpers
+spec
 
 # End of https://www.gitignore.io/api/macos
 

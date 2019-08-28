@@ -2,9 +2,26 @@ class Api::V1::MemesController < Api::ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
 
-  def index               
+  def check_pro(memes)
+    if current_user && current_user.is_pro
+      memes
+    else
+      memes.limit(20)
+    end
+  end
+
+  def index 
     memes = Meme.order(created_at: :desc)
-    render(json: memes, each_serializer: MemeSerializer)
+
+    if (params[:tag_name])
+      tag = Tag.find_by_name params[:tag_name]
+
+      render(json: check_pro(tag.memes.order(created_at: :desc)), each_serializer: MemeSerializer)
+    else
+      render(json: check_pro(memes), each_serializer: MemeSerializer)
+    end             
+
+
   end
 
   def show
@@ -45,7 +62,7 @@ class Api::V1::MemesController < Api::ApplicationController
 
   private
   def meme_params
-    params.permit(:title, :body, :meme_img)
+    params.permit(:title, :body, :meme_img, :tag_names)
   end
 
 end
