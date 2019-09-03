@@ -11,12 +11,15 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get '/popular_tags', to: 'memes#get_popular_tags'
       resources :memes do 
+        resources :comments, only: [:create, :update, :destroy, :show]
         resources :votes, only: [:create, :update]
       end
       resources :users
       resources :charges, only: [:create]
       resource :sessions, only: [:create, :destroy]
+
       get '/current_user', {to: 'users#current'}
     end
   end

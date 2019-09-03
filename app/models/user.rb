@@ -3,15 +3,17 @@ class User < ApplicationRecord
   has_many :memes, dependent: :destroy
   has_many :user_taggings, dependent: :destroy
   has_many :votes, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
   has_many :tags, through: :user_taggings
   has_many :voted_memes, through: :votes, source: :meme
+  has_many :commented_memes, through: :comments, source: :meme
 
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   validates :email, presence: true, uniqueness: true, format: VALID_EMAIL_REGEX
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :password, presence: true
 
   def full_name
     "#{self.first_name} #{self.last_name}"

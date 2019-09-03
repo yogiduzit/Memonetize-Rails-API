@@ -1,12 +1,21 @@
 class Api::V1::MemesController < Api::ApplicationController
 
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :get_popular_tags]
 
   def check_pro(memes)
     if current_user && current_user.is_pro
       memes
     else
-      memes.limit(20)
+      memes.limit(10)
+    end
+  end
+
+  def get_popular_tags
+    popular_tags = Tag.joins(:meme_taggings).group('tags.id').order('COUNT(meme_taggings.meme_id)').limit(10).pluck(:name).reverse
+    if popular_tags[0]
+      render(json: popular_tags, status: 200)
+    else
+      render(json: {error: 'No tags found'})
     end
   end
 
@@ -38,7 +47,7 @@ class Api::V1::MemesController < Api::ApplicationController
       render(json: { id: meme.id })
     else
       render(
-        json: {errors: meme.errors },
+        json: {errors: meme.errors.full_messages },
         status: 422
       )
     end
