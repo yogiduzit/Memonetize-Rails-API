@@ -2,6 +2,7 @@ class Meme < ApplicationRecord
 
   require "json"
   require "ibm_watson/visual_recognition_v3"
+  
   include IBMWatson
 
   belongs_to :user
@@ -10,15 +11,18 @@ class Meme < ApplicationRecord
 
   has_many :votes, dependent: :destroy
   has_many :meme_taggings, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
   has_many :tags, through: :meme_taggings
   has_many :voters, through: :votes, source: :user
+  has_many :commenters, through: :comments, source: :user
 
   validates :title, presence: true
   validates :body, presence: true
   validate :get_explicit_score
 
   def classify_meme
-    path = S3_BUCKET.object(self.meme_img.key).url
+    path = S3_BUCKET.object(self.meme_img.key).public_url
     classes = visual_recognition.classify(
       url: path,
       classifier_ids: [:explicit]
@@ -29,7 +33,7 @@ class Meme < ApplicationRecord
   def get_explicit_score
     result = classify_meme["images"][0]["classifiers"][0]["classes"][0]
     if result["class"] === "explicit"
-      errors.add(:img_url, "explicit image")
+      errors.add(:uploaded_image, "is explicit")
     end
   end
 
